@@ -7,6 +7,10 @@ import { createCube } from "./base/cube"
 import { createRenderer } from "./base/renderer"
 import { createControl } from "./base/control"
 
+var stats = new Stats();
+stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+stats.dom.style.top = "20%"
+document.body.appendChild(stats.dom);
 class ThreeApp {
     constructor(container) {
         // console.log(container)
@@ -29,14 +33,12 @@ class ThreeApp {
         // 渲染场景
         console.log("渲染场景...")
         const clock = new THREE.Clock()
-        var stats = new Stats();
-        stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-        stats.dom.style.top = "20%"
-        document.body.appendChild(stats.dom);
-        const tick = () => {
+        let previousTime = 0
+        this.tick = () => {
             stats.update()
             const elapsedTime = clock.getElapsedTime()
-            const deltatTime = clock.getDelta()
+            const deltaTime = elapsedTime - previousTime
+            previousTime = elapsedTime
 
             // // Update controls
             this.control.update()
@@ -48,13 +50,18 @@ class ThreeApp {
             this.renderer.render(this.scene, this.camera)
 
             // Call tick again on the next frame
-            window.requestAnimationFrame(tick)
+            window.requestAnimationFrame(this.tick)
         }
-        tick()
+        this.tick()
     }
     clear() {
         console.log("清理内存")
         resize.clear()
+        this.tick = null
+        this.scene = null
+        this.camera = null
+        this.renderer.dispose()
+        this.control.dispose()
     }
 }
 
