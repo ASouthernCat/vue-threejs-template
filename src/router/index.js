@@ -1,11 +1,9 @@
-import scene from "../components/scene.vue";
-
 import { createRouter, createWebHashHistory } from "vue-router";
 
 const routes = [
   {
     path: "/",
-    component: scene,
+    component: () => import("../components/Scene.vue"),
   },
 ];
 

@@ -1,8 +1,8 @@
 import { WebGLRenderer, PCFSoftShadowMap,SRGBColorSpace } from 'three';
 import { sizes } from '../system/sizes';
-function createRenderer(container) {
+function createRenderer(canvas) {
     const renderer = new WebGLRenderer({
-        canvas: container,
+        canvas,
         antialias: true, //抗锯齿
     })
     renderer.shadowMap.enabled = true
