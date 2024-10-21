@@ -8,6 +8,8 @@ import { createCube } from "./base/cube"
 import { createRenderer } from "./base/renderer"
 import { createControl } from "./base/control"
 import { initLight } from "./base/light"
+import { initModels } from "./main/model"
+import { disposeTexture } from "./texture"
 
 let stats = new Stats();
 stats.dom.style.position = 'absolute';
@@ -49,6 +51,7 @@ class ThreeApp {
         // 场景组成内容 object3D
         const cube = createCube()
         this.scene.add(cube)
+        initModels(this.scene)
         // 渲染器 renderer
         this.renderer = createRenderer(canvas.el)
         // resize
@@ -99,6 +102,7 @@ class ThreeApp {
         this.camera = null
         this.renderer.dispose()
         this.control.dispose()
+        disposeTexture()
         gui.children.forEach(h => { h.domElement.remove() })
     }
 }
